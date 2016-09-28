@@ -44,8 +44,10 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(34);
+	'use strict';
+
+	let React = __webpack_require__(1);
+	let ReactDOM = __webpack_require__(34);
 
 	class StoryBox extends React.Component {
 	  render() {
@@ -57,7 +59,7 @@
 	  }
 	}
 
-	let target = document.getElementById('example');
+	let target = document.getElementById('story-app');
 
 	ReactDOM.render(React.createElement(StoryBox, null), target);
 

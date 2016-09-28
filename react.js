@@ -1,5 +1,7 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+'use strict';
+
+let React = require('react');
+let ReactDOM = require('react-dom');
 
 class StoryBox extends React.Component {
   render() {
@@ -7,7 +9,7 @@ class StoryBox extends React.Component {
   }
 }
 
-let target = document.getElementById('example');
+let target = document.getElementById('story-app');
 
 ReactDOM.render(
   <StoryBox />,
