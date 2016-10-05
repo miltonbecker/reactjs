@@ -49,9 +49,9 @@
 	let React = __webpack_require__(1);
 	let ReactDOM = __webpack_require__(34);
 	let CommentBox = __webpack_require__(172);
-	let Styles = __webpack_require__(178);
+	let Styles = __webpack_require__(174);
 
-	let target = document.getElementById('story-app');
+	let target = document.getElementById('comment-app');
 
 	ReactDOM.render(React.createElement(CommentBox, null), target);
 
@@ -21515,8 +21515,46 @@
 	module.exports = Comment;
 
 /***/ },
-/* 174 */,
-/* 175 */,
+/* 174 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(175);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(177)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../node_modules/css-loader/index.js!./main.css", function() {
+				var newContent = require("!!./../node_modules/css-loader/index.js!./main.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 175 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(176)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "body {\n  font-family: sans-serif;\n}\n\n.comment {\n  border: 1px dashed black;\n  margin: 10px;\n  padding: 10px;\n  width: 350px;\n}\n\n.comment-header {\n  padding-top: 0px;\n  margin-top: 0px;\n  font-weight: bold;\n}\n\n.comment-body {\n  font-style: italic;\n  background-color: lightgrey;\n  padding: 10px;\n}\n\n.comment-footer {\n  text-align: right;\n}\n\n.comment-footer-delete {\n  padding: 5px;\n  font-size: 85%;\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
 /* 176 */
 /***/ function(module, exports) {
 
@@ -21819,46 +21857,6 @@
 		if(oldSrc)
 			URL.revokeObjectURL(oldSrc);
 	}
-
-
-/***/ },
-/* 178 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(179);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(177)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../node_modules/css-loader/index.js!./main.css", function() {
-				var newContent = require("!!./../node_modules/css-loader/index.js!./main.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 179 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(176)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "body {\n  font-family: sans-serif;\n}\n\n.comment {\n  border: 1px dashed black;\n  margin: 10px;\n  padding: 10px;\n  width: 350px;\n}\n\n.comment-header {\n  padding-top: 0px;\n  margin-top: 0px;\n  font-weight: bold;\n}\n\n.comment-body {\n  font-style: italic;\n  background-color: lightgrey;\n  padding: 10px;\n}\n\n.comment-footer {\n  text-align: right;\n}\n\n.comment-footer-delete {\n  padding: 5px;\n  font-size: 85%;\n}\n", ""]);
-
-	// exports
 
 
 /***/ }
