@@ -5,18 +5,43 @@ let Comment = require('./comment')
 
 class CommentBox extends React.Component {
 
+  constructor() {
+    super();
+
+    this.state = {
+      showComments: false
+    };
+  }
+
   render() {
     const comments = this._getComments() || [];
+
+    let commentNodes;
+    let buttonText = 'Show Comments';
+    if (this.state.showComments) {
+      buttonText = 'Hide Comments';
+      commentNodes = <div className="comment-list">{comments}</div>;
+    }
 
     return (
       <div className="comment-box">
         <h3>Comments</h3>
-        <h4 className="comment-count">{this._getCommentsTitle(comments.length)}</h4>
+        <h4 className="comment-count">
+          {this._getCommentsTitle(comments.length)}
+          &nbsp;
+          <button onClick={this._handleClick.bind(this)}>{buttonText}</button>
+        </h4>
         <div className="comment-list">
-          {comments}
+          {commentNodes}
         </div>
       </div>
     );
+  }
+
+  _handleClick() {
+    this.setState({
+      showComments: !this.state.showComments
+    });
   }
 
   _getComments() {
