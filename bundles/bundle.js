@@ -21424,15 +21424,37 @@
 
 	let React = __webpack_require__(1);
 	let Comment = __webpack_require__(173);
+	let CommentForm = __webpack_require__(178);
 
 	class CommentBox extends React.Component {
+
+	  constructor() {
+	    super();
+
+	    this.state = {
+	      showComments: true,
+	      comments: [{ id: 1, author: 'Morgan A. McCircuit', body: 'Great picture!' }, { id: 2, author: 'Bending Bender', body: 'Excellent stuff.' }]
+	    };
+	  }
 
 	  render() {
 	    const comments = this._getComments() || [];
 
+	    let commentNodes;
+	    let buttonText = 'Show Comments';
+	    if (this.state.showComments) {
+	      buttonText = 'Hide Comments';
+	      commentNodes = React.createElement(
+	        'div',
+	        { className: 'comment-list' },
+	        comments
+	      );
+	    }
+
 	    return React.createElement(
 	      'div',
 	      { className: 'comment-box' },
+	      React.createElement(CommentForm, { addComment: this._addComment.bind(this) }),
 	      React.createElement(
 	        'h3',
 	        null,
@@ -21441,18 +21463,41 @@
 	      React.createElement(
 	        'h4',
 	        { className: 'comment-count' },
-	        this._getCommentsTitle(comments.length)
+	        this._getCommentsTitle(comments.length),
+	        ' ',
+	        React.createElement(
+	          'button',
+	          { onClick: this._handleClick.bind(this) },
+	          buttonText
+	        )
 	      ),
 	      React.createElement(
 	        'div',
 	        { className: 'comment-list' },
-	        comments
+	        commentNodes
 	      )
 	    );
 	  }
 
+	  _handleClick() {
+	    this.setState({
+	      showComments: !this.state.showComments
+	    });
+	  }
+
+	  _addComment(author, body) {
+	    const comment = {
+	      id: this.state.comments.length + 1,
+	      author,
+	      body
+	    };
+	    this.setState({
+	      comments: this.state.comments.concat([comment])
+	    });
+	  }
+
 	  _getComments() {
-	    const commentList = [{ id: 1, author: 'Morgan A. McCircuit', body: 'Great picture!' }, { id: 2, author: 'Bending Bender', body: 'Excellent stuff.' }];
+	    let commentList = this.state.comments || [];
 
 	    return commentList.map(comment => {
 	      return React.createElement(Comment, { author: comment.author, body: comment.body, key: comment.id });
@@ -21549,7 +21594,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-family: sans-serif;\n}\n\n.comment {\n  border: 1px dashed black;\n  margin: 10px;\n  padding: 10px;\n  width: 350px;\n}\n\n.comment-header {\n  padding-top: 0px;\n  margin-top: 0px;\n  font-weight: bold;\n}\n\n.comment-body {\n  font-style: italic;\n  background-color: lightgrey;\n  padding: 10px;\n}\n\n.comment-footer {\n  text-align: right;\n}\n\n.comment-footer-delete {\n  padding: 5px;\n  font-size: 85%;\n}\n", ""]);
+	exports.push([module.id, "body {\n  font-family: sans-serif;\n}\n\n.comment {\n  border: 1px dashed black;\n  margin: 10px;\n  padding: 10px;\n  width: 350px;\n}\n\n.comment-header {\n  padding-top: 0px;\n  margin-top: 0px;\n  font-weight: bold;\n}\n\n.comment-body {\n  font-style: italic;\n  background-color: lightgrey;\n  padding: 10px;\n}\n\n.comment-footer {\n  text-align: right;\n}\n\n.comment-footer-delete {\n  padding: 5px;\n  font-size: 85%;\n}\n\n.form-author {\n  display: table;\n  margin-bottom: 10px;\n  width: 98%;\n  height: 20px;\n  border: 1px solid black;\n}\n\n.form-body {\n  display: table;\n  width: 98%;\n  height: 100px;\n  border: 1px solid black;\n}\n", ""]);
 
 	// exports
 
@@ -21858,6 +21903,66 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 178 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	let React = __webpack_require__(1);
+
+	class CommentForm extends React.Component {
+
+	  render() {
+	    return React.createElement(
+	      'form',
+	      { onSubmit: this._handleSubmit.bind(this) },
+	      React.createElement(
+	        'h3',
+	        null,
+	        'Join the discussion'
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'comment' },
+	        React.createElement('input', { placeholder: 'Name:', ref: input => this._author = input,
+	          className: 'form-author', size: '100' }),
+	        React.createElement('textarea', { placeholder: 'Comment:', ref: textarea => this._body = textarea,
+	          className: 'form-body' })
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'comment-form-actions' },
+	        React.createElement(
+	          'button',
+	          { type: 'submit' },
+	          'Post comment'
+	        )
+	      )
+	    );
+	  }
+
+	  _handleSubmit(event) {
+	    //prevents page from reloading
+	    event.preventDefault();
+
+	    //if any field is blank, do not add the comment
+	    if (!this._author.value || !this._body.value) {
+	      alert('Please fill up both fields to add a comment');
+	      return;
+	    }
+
+	    this.props.addComment(this._author.value, this._body.value);
+
+	    //clear form fields
+	    this._author.value = '';
+	    this._body.value = '';
+	  }
+
+	}
+
+	module.exports = CommentForm;
 
 /***/ }
 /******/ ]);

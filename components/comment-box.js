@@ -1,7 +1,8 @@
 'use strict';
 
 let React = require('react');
-let Comment = require('./comment')
+let Comment = require('./comment');
+let CommentForm = require('./comment-form');
 
 class CommentBox extends React.Component {
 
@@ -9,7 +10,11 @@ class CommentBox extends React.Component {
     super();
 
     this.state = {
-      showComments: false
+      showComments: true,
+      comments: [
+        { id: 1, author: 'Morgan A. McCircuit', body: 'Great picture!' },
+        { id: 2, author: 'Bending Bender', body: 'Excellent stuff.' }
+      ]
     };
   }
 
@@ -25,6 +30,7 @@ class CommentBox extends React.Component {
 
     return (
       <div className="comment-box">
+        <CommentForm addComment={this._addComment.bind(this)} />
         <h3>Comments</h3>
         <h4 className="comment-count">
           {this._getCommentsTitle(comments.length)}
@@ -44,11 +50,19 @@ class CommentBox extends React.Component {
     });
   }
 
+  _addComment(author, body) {
+    const comment = {
+      id: this.state.comments.length + 1,
+      author,
+      body
+    };
+    this.setState({
+      comments: this.state.comments.concat([comment])
+    });
+  }
+
   _getComments() {
-    const commentList = [
-      { id: 1, author: 'Morgan A. McCircuit', body: 'Great picture!' },
-      { id: 2, author: 'Bending Bender', body: 'Excellent stuff.' }
-    ];
+    let commentList = this.state.comments || [];
 
     return commentList.map((comment) => {
       return (

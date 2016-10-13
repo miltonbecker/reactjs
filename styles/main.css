@@ -29,3 +29,18 @@ body {
   padding: 5px;
   font-size: 85%;
 }
+
+.form-author {
+  display: table;
+  margin-bottom: 10px;
+  width: 98%;
+  height: 20px;
+  border: 1px solid black;
+}
+
+.form-body {
+  display: table;
+  width: 98%;
+  height: 100px;
+  border: 1px solid black;
+}
