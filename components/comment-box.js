@@ -11,10 +11,7 @@ class CommentBox extends React.Component {
 
     this.state = {
       showComments: true,
-      comments: [
-        { id: 1, author: 'Morgan A. McCircuit', body: 'Great picture!' },
-        { id: 2, author: 'Bending Bender', body: 'Excellent stuff.' }
-      ]
+      comments: []
     };
   }
 
@@ -61,16 +58,6 @@ class CommentBox extends React.Component {
     });
   }
 
-  _getComments() {
-    let commentList = this.state.comments || [];
-
-    return commentList.map((comment) => {
-      return (
-        <Comment author={comment.author} body={comment.body} key={comment.id} />
-      );
-    });
-  }
-
   _getCommentsTitle(commentsCount) {
     if (commentsCount === 0) {
       return 'No comments yet.';
@@ -79,6 +66,62 @@ class CommentBox extends React.Component {
     } else {
       return `${commentsCount} comments`;
     }
+  }
+
+  _getComments() {
+    let commentList = this.state.comments || [];
+
+    return commentList.map((comment) => {
+      return (
+        <Comment author={comment.author}
+          body={comment.body}
+          key={comment.id}
+          onDelete={this._deteleComment.bind(this)}
+          comment={comment} />
+      );
+    });
+  }
+
+  //this is one of react's lifecycle methods
+  //it's invoked BEFORE render()
+  componentWillMount() {
+    this._fetchComments();
+  }
+
+  //this one is invoked AFTER render()
+  componentDidMount() {
+    this._timer = setInterval(() => this._fetchComments(), 5000);
+  }
+
+  //and this one is invoked right before the
+  //compoent gets removed from the DOM
+  componentWillUnmount() {
+    clearInterval(this._timer);
+  }
+
+  _fetchComments() {
+    jQuery.ajax({
+      method: 'GET',
+      url: 'api/comments.json',
+      success: (comments) => {
+        this.setState({comments});
+      }
+    });
+  }
+
+  _deteleComment(comment) {
+    //this would be the call for a web service 
+    /*
+    $.ajax({
+      method: 'DELETE',
+      url: `/api/comments.json/${comment.id}`
+    });
+    */
+    const comments = [ ...this.state.comments ];
+    const commentIndex = comments.indexOf(comment);
+    comments.splice(commentIndex, 1);
+
+    this.setState({ comments });
   }
 
 }
